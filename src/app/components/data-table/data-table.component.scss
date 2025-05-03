@@ -1,0 +1,130 @@
+:host {
+  display: block;
+}
+
+.table-container {
+  @apply bg-white rounded-lg shadow-md;
+  padding: 20px;
+  position: relative;
+  min-height: 400px;
+
+  .table-controls {
+    @apply flex flex-wrap gap-4 mb-4;
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+
+    .search-field {
+      @apply w-full md:w-64;
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .columns-field {
+      @apply w-full md:w-64;
+      width: 200px;
+    }
+  }
+
+  .table-wrapper {
+    @apply overflow-x-auto rounded-lg shadow-lg;
+    overflow-x: auto;
+    border-radius: 4px;
+    background: white;
+
+    table {
+      @apply w-full;
+      width: 100%;
+    }
+
+    .mat-column-isActive {
+      width: 80px;
+      text-align: center;
+
+      .mat-icon {
+        &.active {
+          @apply text-green-500;
+          color: #4caf50;
+        }
+        &:not(.active) {
+          @apply text-red-500;
+          color: #f44336;
+        }
+      }
+    }
+
+    .mat-column-actions {
+      width: 80px;
+      text-align: center;
+    }
+  }
+
+  .loading-shade {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.15);
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+th {
+  @apply px-4 py-2 bg-gray-100 text-gray-700 font-semibold;
+}
+
+td {
+  @apply px-4 py-2 border-b border-gray-200;
+}
+
+mat-paginator {
+  @apply mt-4;
+}
+
+// Адаптивные стили
+@media (max-width: 768px) {
+  .table-container {
+    padding: 10px;
+
+    .table-controls {
+      flex-direction: column;
+      gap: 10px;
+
+      .search-field,
+      .columns-field {
+        width: 100%;
+      }
+    }
+
+    .mat-table {
+      .mat-header-row {
+        display: none;
+      }
+
+      .mat-row {
+        display: flex;
+        flex-direction: column;
+        padding: 8px 24px;
+        border-bottom: 1px solid #ddd;
+
+        .mat-cell {
+          display: flex;
+          justify-content: space-between;
+          padding: 8px 0;
+          border: none;
+
+          &::before {
+            content: attr(data-label);
+            font-weight: bold;
+            margin-right: 10px;
+          }
+        }
+      }
+    }
+  }
+} 

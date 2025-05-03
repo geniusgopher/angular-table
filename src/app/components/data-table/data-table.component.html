@@ -1,0 +1,102 @@
+<div class="table-container p-4">
+  <div class="table-controls flex flex-wrap gap-4 mb-4">
+    <mat-form-field appearance="outline" class="search-field w-full md:w-64">
+      <input matInput [formControl]="searchControl" placeholder="Введите текст для поиска">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="columns-field w-full md:w-64">
+      <mat-select [formControl]="visibleColumns" multiple>
+        <mat-option *ngFor="let column of displayedColumns" [value]="column">
+          {{getColumnDisplayName(column)}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="table-wrapper overflow-x-auto rounded-lg shadow-lg">
+    <table mat-table [dataSource]="dataSource" matSort class="w-full">
+      <!-- Active Column -->
+      <ng-container matColumnDef="isActive">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="px-4 py-2 bg-gray-100 text-gray-700 font-semibold">Активен</th>
+        <td mat-cell *matCellDef="let element" class="px-4 py-2 border-b border-gray-200">
+          <mat-icon [class.active]="element.isActive" class="text-green-500">
+            {{element.isActive ? 'check_circle' : 'cancel'}}
+          </mat-icon>
+        </td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="px-4 py-2 bg-gray-100 text-gray-700 font-semibold">Имя</th>
+        <td mat-cell *matCellDef="let element" class="px-4 py-2 border-b border-gray-200">
+          {{ `${element.name?.first ?? '-'} ${element.name?.last ?? ''}`}}
+        </td>
+      </ng-container>
+
+      <!-- Age Column -->
+      <ng-container matColumnDef="age">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="px-4 py-2 bg-gray-100 text-gray-700 font-semibold">Возраст</th>
+        <td mat-cell *matCellDef="let element" class="px-4 py-2 border-b border-gray-200">{{element.age}}</td>
+      </ng-container>
+
+      <!-- Company Column -->
+      <ng-container matColumnDef="company">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="px-4 py-2 bg-gray-100 text-gray-700 font-semibold">Компания</th>
+        <td mat-cell *matCellDef="let element" class="px-4 py-2 border-b border-gray-200">{{element.company}}</td>
+      </ng-container>
+
+      <!-- Email Column -->
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="px-4 py-2 bg-gray-100 text-gray-700 font-semibold">Email</th>
+        <td mat-cell *matCellDef="let element" class="px-4 py-2 border-b border-gray-200">{{element.email}}</td>
+      </ng-container>
+
+      <!-- Balance Column -->
+      <ng-container matColumnDef="balance">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="px-4 py-2 bg-gray-100 text-gray-700 font-semibold">Баланс</th>
+        <td mat-cell *matCellDef="let element" class="px-4 py-2 border-b border-gray-200">{{element.balance}}</td>
+      </ng-container>
+
+      <!-- Favorite Fruit Column -->
+      <ng-container matColumnDef="favoriteFruit">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="px-4 py-2 bg-gray-100 text-gray-700 font-semibold">Любимый фрукт</th>
+        <td mat-cell *matCellDef="let element" class="px-4 py-2 border-b border-gray-200">{{element.favoriteFruit}}</td>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef class="px-4 py-2 bg-gray-100 text-gray-700 font-semibold">Действия</th>
+        <td mat-cell *matCellDef="let element" class="px-4 py-2 border-b border-gray-200">
+          <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item>
+              <mat-icon>edit</mat-icon>
+              <span>Редактировать</span>
+            </button>
+            <button mat-menu-item>
+              <mat-icon>delete</mat-icon>
+              <span>Удалить</span>
+            </button>
+          </mat-menu>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="visibleColumns.value"></tr>
+      <tr mat-row *matRowDef="let row; columns: visibleColumns.value;"></tr>
+    </table>
+
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 25, 100]"
+      [pageSize]="10"
+      showFirstLastButtons
+      aria-label="Выберите страницу">
+    </mat-paginator>
+  </div>
+
+  <div class="loading-shade" *ngIf="isLoading">
+    <mat-spinner></mat-spinner>
+  </div>
+</div> 
