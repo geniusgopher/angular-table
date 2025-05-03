@@ -1,6 +1,6 @@
 
 export default {
-  basePath: 'https://geniusgopher.github.io/angular-table',
+  basePath: '/angular-table',
   supportedLocales: {
   "en-US": ""
 },
